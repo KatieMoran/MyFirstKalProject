@@ -10,7 +10,7 @@ namespace MyFirstCity
     /// This class defines the account for a bank
     /// This is the blue print
     /// </summary>
-    public class User
+    public class Account
     {
         #region Statics
         private static int lastAccountNumber = 0;
@@ -33,11 +33,11 @@ namespace MyFirstCity
         #endregion
         #region Methods
 
-        public User()
+        public Account()
         {
             this.AccountNumber = ++lastAccountNumber;
         }
-        public User(string emailAddress)
+        public Account(string emailAddress)
         {
             this.AccountNumber = ++lastAccountNumber;
             this.EmailAddress = emailAddress;
