@@ -9,18 +9,20 @@ namespace MyFirstCity
     public static class Bank
     {
 
-        private static List<Account> accounts = new List<Account>();
         public static string Name { get; set; }
 
         public static Account CreateAcount(string emailAdress, decimal amount)
         {
+            var db = new BankModel();
             var account = new Account(emailAdress, amount);
-            accounts.Add(account);
+            db.Accounts.Add(account);
+            db.SaveChanges();
             return account;
         }
         public static void PrintAllAccounts(string emailAddress)
         {
-            foreach (var account in accounts.Where(a => a.EmailAddress == emailAddress))
+            var db = new BankModel();
+            foreach (var account in db.Accounts.Where(a => a.EmailAddress == emailAddress))
             {
                 Console.WriteLine($"Account number):{ account.AccountNumber}, Balance: { account.Balance:C}");
 

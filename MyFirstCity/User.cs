@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace MyFirstCity
         /// <summary>
         /// The Acccount Number for a bank
         /// </summary>
-      
+        [Key]
         public int AccountNumber { get; private set; }
 
         /// <summary>
@@ -32,20 +33,23 @@ namespace MyFirstCity
         /// Balance of the account
         /// </summary>
         public decimal Balance { get; private set; }
+        
+        public virtual ICollection<Transaction> Transactions { get; set;  }
         #endregion
         #region Methods
 
-        public Account()
+        public Account() : this ("", 0.0M)
         {
-            this.AccountNumber = ++lastAccountNumber;
+            //this.AccountNumber = ++lastAccountNumber;
         }
-        public Account(string emailAddress)
+        public Account(string emailAddress) : this (emailAddress, 0.0M)
         {
-            this.AccountNumber = ++lastAccountNumber;
-            this.EmailAddress = emailAddress;
+            //this.AccountNumber = ++lastAccountNumber;
+            //this.EmailAddress = emailAddress;
+           
         }
 
-        public Account(string emailAddress, decimal amount) : this(emailAddress)
+        public Account(string emailAddress, decimal amount) 
         {
             this.amount = amount;
         }

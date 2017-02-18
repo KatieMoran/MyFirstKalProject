@@ -7,16 +7,10 @@ using System.Threading.Tasks;
 namespace MyFirstCity
 {
     class Program
-
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("****Welcome to my bank * ***");
-            while (true)
-            Console.WriteLine("Plese provide your email address");
-            var emailAddress = Console.ReadLine();
-
-            {
+                Console.WriteLine("****Welcome to my bank!******"); 
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("1. create an account");
                 Console.WriteLine("2. Deposit");
@@ -29,15 +23,17 @@ namespace MyFirstCity
                     case "0":
                         return;
                     case "1":
-                        var myAccount = Bank.CreateAcount(emailAddress, 0.0M);
+                        Console.WriteLine("Please provide your email adress:");
+                        var emailaddress = Console.ReadLine();
+                        var myAccount = new Account(emailaddress);
                         Console.WriteLine($"The balance in my account - {myAccount.AccountNumber} is {myAccount.Balance:C}");
+
                         break;
                     case "2":
                         break;
                     case "3":
                         break;
                     case "4":
-                        Bank.PrintAllAccounts(emailAddress);
                         break;
                     default:
                         Console.WriteLine("Sorry, option not available");
@@ -47,4 +43,3 @@ namespace MyFirstCity
             }
         }
     }
-}
