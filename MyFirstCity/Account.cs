@@ -25,6 +25,7 @@ namespace MyFirstCity
         [Key]
         public int AccountNumber { get; private set; }
 
+        public string AccountName { get; set; }
         /// <summary>
         /// email of the account
         /// </summary>
@@ -51,7 +52,8 @@ namespace MyFirstCity
 
         public Account(string emailAddress, decimal amount) 
         {
-            this.amount = amount;
+            this.EmailAddress = emailAddress;
+            this.Balance = amount;
         }
 
         public decimal Deposit(decimal amount)

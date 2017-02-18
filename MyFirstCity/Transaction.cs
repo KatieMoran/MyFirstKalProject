@@ -26,7 +26,7 @@ namespace MyFirstCity
 
         public decimal Amount { get; set; }
 
-        [ForeignKey("Acount")]
+        [ForeignKey("Account")]
         public int AccountNumber { get; set; }
         public virtual Account Account { get; set; }
 
