@@ -14,12 +14,14 @@ namespace MyFirstCity
     {
         #region Statics
         private static int lastAccountNumber = 0;
+        private decimal amount;
         #endregion
 
         #region Properties
         /// <summary>
         /// The Acccount Number for a bank
         /// </summary>
+      
         public int AccountNumber { get; private set; }
 
         /// <summary>
@@ -42,6 +44,12 @@ namespace MyFirstCity
             this.AccountNumber = ++lastAccountNumber;
             this.EmailAddress = emailAddress;
         }
+
+        public Account(string emailAddress, decimal amount) : this(emailAddress)
+        {
+            this.amount = amount;
+        }
+
         public decimal Deposit(decimal amount)
         {
             Balance = Balance + amount;
