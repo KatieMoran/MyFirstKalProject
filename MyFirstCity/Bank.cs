@@ -19,36 +19,101 @@ namespace MyFirstCity
             db.SaveChanges();
             return account;
         }
-
-        public static void Deposit (int accountNumber, decimal amount)
+        /// <summary>
+        /// Deposit money into your account.
+        /// </summary>
+        /// <param name="accountNumber"></param>
+        /// <param name="amount"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public static void Deposit(int accountNumber, decimal amount)
         {
+
+            if (accountNumber <= 0)
+            {
+                throw new ArgumentException("Account Number is invalid");
+            }
+
+            if (amount <= 0)
+
+            {
+                throw new ArgumentException("Amount is invalid");
+            }
+
             var db = new BankModel();
             var account = db.Accounts.Where(a => a.AccountNumber == accountNumber).FirstOrDefault();
-            if (account !=null)
+            if (account == null)
             {
-                account.Deposit(amount);
+                throw new ArgumentOutOfRangeException("Invalid Account Number");
+            }
+
+            account.Deposit(amount);
+            db.Entry(account).State = System.Data.Entity.EntityState.Modified;
+
+            var transaction = new Transaction();
+            transaction.TransactionDate = DateTime.Now;
+            transaction.Amount = amount;
+            transaction.TypeofTransaction = TransactionType.Credit;
+            transaction.Description = "Depostit to the account";
+            transaction.AccountNumber = accountNumber;
+
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
+
+        }
+
+              public static void Withdrawl(int accountNumber, decimal amount)
+        {
+
+            if (accountNumber <= 0)
+            {
+                throw new ArgumentException("Account Number is invalid");
+            }
+
+            if (amount <= 0)
+
+            {
+                throw new ArgumentException("Amount is invalid");
+            }
+
+            var db = new BankModel();
+            var account = db.Accounts.Where(a => a.AccountNumber == accountNumber).FirstOrDefault();
+            if (account == null)
+            {
+                account.withdrawl(amount);
                 db.Entry(account).State = System.Data.Entity.EntityState.Modified;
 
                 var transaction = new Transaction();
                 transaction.TransactionDate = DateTime.Now;
                 transaction.Amount = amount;
-                transaction.TypeofTransaction = TransactionType.Credit;
-                transaction.Description = "Depostit to the account";
+                transaction.TypeofTransaction = TransactionType.Debit;
+                transaction.Description = "Withdraw to the account";
                 transaction.AccountNumber = accountNumber;
 
                 db.Transactions.Add(transaction);
-                db.SaveChanges();                  
+                db.SaveChanges();
 
             }
         }
-        public static void PrintAllAccounts(string emailAddress)
+
+        internal static object GetAllAccounts(string emailAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void GetAllTransactions(int accountNum)
+        {
+            throw new NotImplementedException();
+        }
+    }
+        public static IQueryable<Account> GetAllAccounts(string emailAddress)
         {
             var db = new BankModel();
-            foreach (var account in db.Accounts.Where(a => a.EmailAddress == emailAddress))
-            {
-                Console.WriteLine($"Account number):{ account.AccountNumber}, Balance: { account.Balance:C}");
-
-            }
+            return db.Accounts.Where(a => a.EmailAddress == emailAddress);
+        }
+        public static IQueryable<Transaction> GetAllTransactions(int accountNumber)
+        {
+            var db = new BankModel();
+            return db.Transactions.Where(t => t.AccountNumber == accountNumber).OrderByDescending(t => t.TransactionDate);
         }
     }
 }
